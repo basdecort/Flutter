@@ -17,15 +17,15 @@ class StartScreenState extends State<StartScreen> {
   List<Team> teams = [
     new Team(
         name: "Nederland",
-        strength: 100,
+        strength: 10,
         imageUrl: "http://flags.fmcdn.net/data/flags/w1160/nl.png"),
     new Team(
         name: "United States",
-        strength: 100,
+        strength: 1,
         imageUrl: "http://flags.fmcdn.net/data/flags/w1160/us.png"),
     new Team(
         name: "Duitsland",
-        strength: 100,
+        strength: 5,
         imageUrl: "http://flags.fmcdn.net/data/flags/w1160/de.png")
   ];
 

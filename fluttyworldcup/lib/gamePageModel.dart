@@ -21,7 +21,10 @@ class GamePageWidgetState extends State<GamePageWidget>
   Game game;
   StreamSubscription subscription;
   List<GameEventRecord> events;
-
+  int minutes = 0;
+  int teamAScore = 0;
+  int teamBScore = 0;
+ 
   @override
   void initState() 
   {
@@ -30,9 +33,23 @@ class GamePageWidgetState extends State<GamePageWidget>
       game = Game.start(a: widget.teamA, b: widget.teamB);
       subscription = game.gameEvent.listen((GameEventRecord e)
       {
-        print("${e.event}");
         setState(() {
-          events.add(e);
+          if (e.event != GameEvent.TimerTick)
+          {
+            if (e.event == GameEvent.GoalScored)
+            {
+              if (e.target.name == widget.teamA.name)
+              {
+                teamAScore++;
+              }else{
+                teamBScore++;
+              }
+            }
+            events.add(e);
+
+          }else{
+            minutes = e.minute;
+          }
        });
       });
   }

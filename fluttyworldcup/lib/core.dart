@@ -56,7 +56,7 @@ class Game
   {
     minute = 0;
 
-    new Timer.periodic(new Duration(milliseconds: 200), (Timer t){
+    new Timer.periodic(new Duration(milliseconds: 10), (Timer t){
 
         if (minute == 106)
         {
@@ -73,20 +73,22 @@ class Game
   {
      var gameState =  minute == 0 ? GameState.Starting : minute == 105 ? GameState.Ended : (minute > 45 && minute < 60) ? GameState.Paused : GameState.Started;
 
-     //gameEventController.add(new GameEventRecord(event: GameEvent.TimerTick, state: gameState,minute: minute, target: null));
+     gameEventController.add(new GameEventRecord(event: GameEvent.TimerTick, state: gameState,minute: minute, target: null));
      var chance = new Random().nextInt(100) % (minute < 15 || minute > 75 ? 5 : 10) == 0;
 
      if (chance && gameState == GameState.Started)
      {
-       int rnd = new Random().nextInt(GameEvent.values.length-1);
+       // Changed to create more goals
+       bool goalRandom = new Random().nextInt(2) == 0;
+       int rnd = Random().nextInt(GameEvent.values.length-1);
        var team = new Random().nextInt(2) == 0 ? a : b;
-       var event = GameEvent.values[rnd];
+       var event = goalRandom ? GameEvent.GoalScored : GameEvent.values[rnd];
 
        if (event == GameEvent.GoalScored)
        {
           int diff = (a.strength - b.strength).abs();
 
-          bool goal = diff > 10 ?  new Random().nextInt(5) == 0 : diff > 5 ? new Random().nextInt(3) == 0 : new Random().nextInt(2) == 0;
+          bool goal = diff > 10 ?  new Random().nextInt(2) == 0 : diff > 5 ? new Random().nextInt(3) == 0 : new Random().nextInt(4) == 0;
           if (goal)
           {
             gameEventController.add(new GameEventRecord(event: event, state: gameState, minute: minute, target: team));
