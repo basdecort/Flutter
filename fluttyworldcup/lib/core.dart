@@ -47,12 +47,12 @@ class Game
   Stream<GameEventRecord> get gameEvent { return gameEventController.stream; }
 
   int minute = 0;
-  StreamController gameEventController = new StreamController.broadcast();
+  StreamController<GameEventRecord> gameEventController = new StreamController.broadcast();
 
   Team a;
   Team b;
 
-  Game.Start({this.a, this.b})
+  Game.start({this.a, this.b})
   {
     minute = 0;
 
@@ -108,7 +108,7 @@ main()
 {
   var teamA = new Team(name: "Nederland", strength: 100);
   var teamB = new Team(name: "Duitsland", strength: 10);
-  var game = new Game.Start(a:teamA, b:teamB);
+  var game = new Game.start(a:teamA, b:teamB);
   game.gameEvent.listen((GameEventRecord e)
   {
     print("${e.minute}: ${e.state}  ${e.event} ${e.target?.name}");

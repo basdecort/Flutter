@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:fluttyworldcup/core.dart';
 import 'package:fluttyworldcup/startscreen.dart';
 
 void main() => runApp(new MyApp());
@@ -13,7 +12,8 @@ class MyApp extends StatelessWidget {
       theme: new ThemeData(
         primarySwatch: Colors.green,
       ),
-      home: new StartScreen(),
+      home:  StartScreen()
+     
     );
   }
 }

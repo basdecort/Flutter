@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:fluttyworldcup/core.dart';
+import 'package:fluttyworldcup/gamePageModel.dart';
 
 class GameScreen extends StatefulWidget {
   final Team teamA;
   final Team teamB;
-  GameScreen.start({this.teamA, this.teamB});
+  GameScreen({this.teamA, this.teamB});
 
   @override
   GameScreenState createState() {
@@ -19,7 +20,8 @@ class GameScreenState extends State<GameScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Material(child:new Column(children: [
+    return Material(
+        child: new Scaffold(body: Column(children: [
       new Container(
           height: 250.0,
           decoration: new BoxDecoration(
@@ -28,6 +30,12 @@ class GameScreenState extends State<GameScreen> {
                   image: new AssetImage("assets/images/pitch-h.jpg"))),
           child: Stack(
             children: [
+              new Center(
+                  child: new Container(
+                      padding: EdgeInsets.only(bottom: 150.0),
+                      child: new Text("00:00",
+                          style: new TextStyle(
+                              color: Colors.white, fontSize: 50.0)))),
               Center(
                   child: Row(
                 children: [
@@ -42,22 +50,27 @@ class GameScreenState extends State<GameScreen> {
               new Center(
                   child: new Container(
                       padding: EdgeInsets.only(top: 170.0),
-                      child: new Text("1 - 1", style: new TextStyle(color: Colors.white, fontSize: 50.0))))
+                      child: new Text("1 - 1",
+                          style: new TextStyle(
+                              color: Colors.white, fontSize: 50.0))))
             ],
           )),
       new Expanded(
           child: new Container(
               color: Colors.white,
               child: ListView.builder(
-                  itemCount: 10,
+                  itemCount: GamePageModel.of(context).model.events.length,
                   itemBuilder: (BuildContext context, int index) {
+
+                  var update = GamePageModel.of(context).model.events[index];
+
                     return new Container(
-                        child: new Text("TEst",
+                        child: new Text(update.event.toString(),
                             style: new TextStyle(color: Colors.grey),
-                            textAlign: index % 2 == 0
+                            textAlign: update.target.name == teamB.name 
                                 ? TextAlign.right
                                 : TextAlign.left));
                   })))
-    ]));
+    ]), appBar: new AppBar(),));
   }
 }
