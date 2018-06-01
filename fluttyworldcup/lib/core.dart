@@ -1,12 +1,13 @@
 import 'dart:async';
-
 import 'dart:math';
+
 class Team
 {
-  Team({this.name, this.strength});
+  Team({this.name, this.strength, this.imageUrl});
 
   final String name;
   final int strength;
+  final String imageUrl;
 }
 
 class GameEventRecord
@@ -72,7 +73,7 @@ class Game
   {
      var gameState =  minute == 0 ? GameState.Starting : minute == 105 ? GameState.Ended : (minute > 45 && minute < 60) ? GameState.Paused : GameState.Started;
 
-     gameEventController.add(new GameEventRecord(event: GameEvent.TimerTick, state: gameState,minute: minute, target: null));
+     //gameEventController.add(new GameEventRecord(event: GameEvent.TimerTick, state: gameState,minute: minute, target: null));
      var chance = new Random().nextInt(100) % (minute < 15 || minute > 75 ? 5 : 10) == 0;
 
      if (chance && gameState == GameState.Started)
@@ -84,6 +85,7 @@ class Game
        if (event == GameEvent.GoalScored)
        {
           int diff = (a.strength - b.strength).abs();
+
           bool goal = diff > 10 ?  new Random().nextInt(5) == 0 : diff > 5 ? new Random().nextInt(3) == 0 : new Random().nextInt(2) == 0;
           if (goal)
           {
@@ -104,8 +106,11 @@ class Game
 
 main()
 {
-  var game = new Game.Start(a:new Team(name: "Nederland", strength: 100), b:new Team(name: "Duitsland", strength: 10));
-  game.gameEvent.listen((GameEventRecord e){
+  var teamA = new Team(name: "Nederland", strength: 100);
+  var teamB = new Team(name: "Duitsland", strength: 10);
+  var game = new Game.Start(a:teamA, b:teamB);
+  game.gameEvent.listen((GameEventRecord e)
+  {
     print("${e.minute}: ${e.state}  ${e.event} ${e.target?.name}");
   });
 }
